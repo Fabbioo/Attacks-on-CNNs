@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 import torch.nn as nn
 import torchvision
@@ -24,8 +25,8 @@ def compute_accuracy(attack_type: int, dataset: list, model: torchvision.models,
                 perturbed_image: torch.Tensor = pgd_attack(model, loss_fn, original_image, epsilon, alpha, iters, device)
             original_image = postprocess(original_image)
             perturbed_image = postprocess(perturbed_image)
-            pred1: int = model(original_image).argmax().item()
-            pred2: int = model(perturbed_image).argmax().item()
+            pred1: int = inference(model, original_image)[0]
+            pred2: int = inference(model, perturbed_image)[0]
             if pred1 == pred2:
                 correct_predicts += 1
             else:

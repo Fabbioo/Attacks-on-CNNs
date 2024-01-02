@@ -1,5 +1,17 @@
+import numpy as np
+from matplotlib import pyplot as plt
 import torch
 import torchvision
+
+def tensor2ndarray(tensor: torch.Tensor) -> np.ndarray:
+    tensor = tensor.squeeze().permute(1, 2, 0).detach().cpu().numpy()
+    ndarray = (tensor * 255.).astype('uint8')
+    return ndarray
+
+def visualize(image: torch.Tensor) -> None:
+    plt.figure(figsize = (6, 6))
+    plt.axis('off')
+    plt.imshow(image)
 
 def preprocess(image: torch.Tensor, img_resize: tuple) -> torch.Tensor:
     image = torch.clamp(image, 0, 255).to(torch.uint8)

@@ -1,26 +1,10 @@
 import numpy as np 
 from matplotlib import pyplot as plt
-import torch
 import torchvision
-from torchvision.models import ResNet50_Weights
 from torchray.attribution.grad_cam import grad_cam
 
-def inference(model: torchvision.models, image: torch.Tensor) -> tuple[int, str, float]:
-    output = model(image).squeeze(0).softmax(0)
-    class_id = output.argmax().item()
-    class_name = ResNet50_Weights.IMAGENET1K_V2.meta['categories'][class_id]
-    class_conf = output[class_id].item()
-    return (class_id, class_name, class_conf)
-
-def visualize(image: torch.Tensor) -> None:
-    plt.figure(figsize = (6, 6))
-    plt.axis('off')
-    plt.imshow(image)
-
-def tensor2ndarray(tensor: torch.Tensor) -> np.ndarray:
-    tensor = tensor.squeeze().permute(1, 2, 0).detach().cpu().numpy()
-    ndarray = (tensor * 255.).astype('uint8')
-    return ndarray
+from .model import inference
+from .utility import tensor2ndarray
 
 def preds_display(model: torchvision.models, tripla: tuple, epsilon: float, show_noise: bool = False) -> None:
     if show_noise:

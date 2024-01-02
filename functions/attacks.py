@@ -1,13 +1,7 @@
 import torch
 import torchvision
-from torchvision.models import ResNet50_Weights
 
-def inference(model: torchvision.models, image: torch.Tensor) -> tuple[int, str, float]:
-    output = model(image).squeeze(0).softmax(0)
-    class_id = output.argmax().item()
-    class_name = ResNet50_Weights.IMAGENET1K_V2.meta['categories'][class_id]
-    class_conf = output[class_id].item()
-    return (class_id, class_name, class_conf)
+from .model import inference
 
 def fgsm_attack(model: torchvision.models, loss_fn, image: torch.Tensor, epsilon: float, device: str) -> torch.Tensor:
     if epsilon == 0:
