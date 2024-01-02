@@ -2,7 +2,7 @@ import torch
 import torchvision
 from torchvision.models import resnet50, ResNet50_Weights
 
-def load_model():
+def load_resnet50_model() -> torchvision.models:
     model = resnet50(weights = ResNet50_Weights.IMAGENET1K_V2) # Lista delle classi: https://deeplearning.cms.waikato.ac.nz/user-guide/class-maps/IMAGENET/
     model.eval()
     return model
