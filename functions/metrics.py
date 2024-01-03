@@ -1,4 +1,4 @@
-from .imports import nn, read_image
+from .imports import nn, np, read_image
 from .attacks import *
 from .model import inference
 from .utility import preprocess, postprocess

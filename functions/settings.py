@@ -5,7 +5,7 @@ warnings.filterwarnings('ignore')
 device: str = 'cpu'
 if torch.cuda.is_available():
     device = 'cuda'
-elif torch.backends.mps.is_available(): 
+elif torch.backends.mps.is_available():
     device = 'mps'
 
 x_img_resize: int = 224

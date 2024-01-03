@@ -34,6 +34,6 @@ def postprocess(image: torch.Tensor) -> torch.Tensor:
         std = [1/0.229, 1/0.224, 1/0.255]
     )
     image = denormalization(image)
-    image = torch.clamp(image, 0, 1) 
+    image = torch.clamp(image, 0, 1)
     
     return image

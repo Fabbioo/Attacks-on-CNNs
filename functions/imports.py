@@ -2,7 +2,7 @@ import os
 import shutil
 import warnings
 
-import numpy as np 
+import numpy as np
 from matplotlib import pyplot as plt
 import torch
 import torch.nn as nn

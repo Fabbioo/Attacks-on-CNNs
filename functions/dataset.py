@@ -2,7 +2,7 @@ from .imports import os, shutil
 
 def load_dataset(images_path: str, added_new_images: bool = False) -> list:
     
-    if added_new_images: 
+    if added_new_images:
         
         working_directory_path: str = os.path.dirname(images_path)
         extension: str = '.jpg'
