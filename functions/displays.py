@@ -1,4 +1,4 @@
-from .imports import torchvision, plt, grad_cam
+from .imports import torchvision, plt, np, grad_cam
 from .model import inference
 from .utility import tensor2ndarray
 
@@ -53,7 +53,7 @@ def gradcam_display(model: torchvision.models, tripla: tuple, resize: tuple) -> 
     cam_pert = grad_cam(model, tripla[2], target = outputs_pert[0], saliency_layer = layer)
     cam_pert = (cam_pert - cam_pert.min()) / (cam_pert.max() - cam_pert.min())
     cam_pert = torchvision.transforms.functional.resize(cam_pert, [resize[0], resize[1]])
-    image_to_show_pert = cam_pert[0].permute(1, 2, 0).detach().cpu().numpy()    
+    image_to_show_pert = cam_pert[0].permute(1, 2, 0).detach().cpu().numpy()
     
     plt.figure()
     for i in range(len(titles)):
