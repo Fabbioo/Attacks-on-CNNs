@@ -7,18 +7,21 @@ from .model import inference
 from .utility import tensor2ndarray
 
 def preds_display(model: torchvision.models, tripla: tuple, epsilon: float, show_noise: bool = False) -> None:
+    
     if show_noise:
         images: list = [tensor2ndarray(tripla[0]), tensor2ndarray(tripla[1]), tensor2ndarray(tripla[2])]
         objects: list = ['ORIGINAL', 'NOISE', 'PERTURBED']
     else:
         images: list = [tensor2ndarray(tripla[0]), tensor2ndarray(tripla[2])]
         objects: list = ['ORIGINAL', 'PERTURBED']
+    
     outputs_orig: tuple = inference(model, tripla[0])
     outputs_pert: tuple = inference(model, tripla[2])
     if outputs_orig[1] == outputs_pert[1]: # Se le due predizioni coincidono ...
         color: str = 'green' # ... stampo una scritta verde ...
     else:
         color: str = 'red' # ... altrimenti rossa.
+    
     plt.figure()
     for i in range(len(images)):
         plt.subplot(1, len(images), i + 1)
@@ -34,22 +37,28 @@ def preds_display(model: torchvision.models, tripla: tuple, epsilon: float, show
             plt.title(objects[2] + f' (Epsilon: {epsilon})\n\n' + str(outputs_pert[0]) + ': ' + outputs_pert[1] + f' -> {outputs_pert[2] * 100:.3}%', color = color)
 
 def gradcam_display(model: torchvision.models, tripla: tuple, resize: tuple) -> None:    
+    
     layer: str = 'layer4'
+    
     titles: list = ['ORIGINAL', 'PERTURBED']
+    
     outputs_orig: tuple = inference(model, tripla[0])
     outputs_pert: tuple = inference(model, tripla[2])
-    cam_orig = grad_cam(model, tripla[0], target = outputs_orig[0], saliency_layer = layer)
-    cam_orig = (cam_orig - cam_orig.min()) / (cam_orig.max() - cam_orig.min())
-    cam_orig = torchvision.transforms.functional.resize(cam_orig, [resize[0], resize[1]])
-    image_to_show_orig = cam_orig[0].permute(1, 2, 0).detach().cpu().numpy()
-    cam_pert = grad_cam(model, tripla[2], target = outputs_pert[0], saliency_layer = layer)
-    cam_pert = (cam_pert - cam_pert.min()) / (cam_pert.max() - cam_pert.min())
-    cam_pert = torchvision.transforms.functional.resize(cam_pert, [resize[0], resize[1]])
-    image_to_show_pert = cam_pert[0].permute(1, 2, 0).detach().cpu().numpy()
     if outputs_orig[1] == outputs_pert[1]: # Se le due predizioni coincidono ...
         color: str = 'green' # ... stampo una scritta verde ...
     else:
         color: str = 'red' # ... altrimenti rossa.
+    
+    cam_orig = grad_cam(model, tripla[0], target = outputs_orig[0], saliency_layer = layer)
+    cam_orig = (cam_orig - cam_orig.min()) / (cam_orig.max() - cam_orig.min())
+    cam_orig = torchvision.transforms.functional.resize(cam_orig, [resize[0], resize[1]])
+    image_to_show_orig = cam_orig[0].permute(1, 2, 0).detach().cpu().numpy()
+    
+    cam_pert = grad_cam(model, tripla[2], target = outputs_pert[0], saliency_layer = layer)
+    cam_pert = (cam_pert - cam_pert.min()) / (cam_pert.max() - cam_pert.min())
+    cam_pert = torchvision.transforms.functional.resize(cam_pert, [resize[0], resize[1]])
+    image_to_show_pert = cam_pert[0].permute(1, 2, 0).detach().cpu().numpy()    
+    
     plt.figure()
     for i in range(len(titles)):
         plt.subplot(1, len(titles), i + 1)
@@ -64,6 +73,7 @@ def gradcam_display(model: torchvision.models, tripla: tuple, resize: tuple) -> 
             plt.title(titles[i] + '\n\n' + str(outputs_pert[0]) + ': ' + outputs_pert[1] + f' -> {outputs_pert[2] * 100:.3}%', color = color)
 
 def accuracy_display(dataset: list, model: torchvision.models, epsilons: list, accuracies: tuple, wrong_preds: tuple, dict_show_wrong_preds: dict) -> None:
+    
     plt.figure()
     plt.plot(epsilons, accuracies[0], label = 'FGSM', marker = 'o', color = 'red')
     plt.plot(epsilons, accuracies[1], label = 'I-FGSM', marker = 'o', color = 'green')
@@ -75,6 +85,7 @@ def accuracy_display(dataset: list, model: torchvision.models, epsilons: list, a
     plt.xticks(np.arange(0, 0.55, step = 0.05))
     plt.yticks(np.arange(0, 1.1, step = 0.1))
     plt.grid()
+    
     temp_str: str = ''
     if dict_show_wrong_preds['show_FGSM_wrong_preds'] == True:
         temp_str = 'FGSM ->'
@@ -87,7 +98,9 @@ def accuracy_display(dataset: list, model: torchvision.models, epsilons: list, a
         wrong_preds_display(wrong_preds[2], dataset, model, epsilons, temp_str)
 
 def wrong_preds_display(dict_wrong_preds: dict, dataset: list, model: torchvision.models, epsilons: list, temp_str: str) -> None:
+    
     column_number: int = 4 # Numero arbitrario di grafici da creare per ciascun valore di epsilon.
+    
     # Se non ci sono abbastanza grafici da creare per il particolare valore di epsilon modifico il numero di grafici da creare.
     min_number_of_elements_in_list_for_each_epsilon: int = len(dataset) # Scelta arbitraria di inizializzazione.
     for i in range(len(epsilons)):
@@ -98,6 +111,7 @@ def wrong_preds_display(dict_wrong_preds: dict, dataset: list, model: torchvisio
             min_number_of_elements_in_list_for_each_epsilon = len_dict_wrong_preds_epsilons_i
     if column_number > min_number_of_elements_in_list_for_each_epsilon:
         column_number = min_number_of_elements_in_list_for_each_epsilon
+    
     # Plot delle immagini perturbate classificate erroneamente.
     for i in range(len(epsilons)):  
         if epsilons[i] == 0: # In corrispondenza di epsilon = 0 non ci possono essere errori nelle predizioni, perciò passo direttamente all'iterazione successiva.
