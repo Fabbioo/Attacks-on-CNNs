@@ -32,7 +32,7 @@ def preds_display(model: torchvision.models, tripla: tuple, epsilon: float, show
         else:
             plt.title(objects[2] + f' (Epsilon: {epsilon})\n\n' + str(outputs_pert[0]) + ': ' + outputs_pert[1] + f' -> {outputs_pert[2] * 100:.3}%', color = color)
 
-def gradcam_display(model: torchvision.models, tripla: tuple, resize: tuple) -> None:    
+def gradcam_display(model: torchvision.models, tripla: tuple, resize: tuple) -> None:
     
     layer: str = 'layer4'
     
@@ -109,7 +109,7 @@ def wrong_preds_display(dict_wrong_preds: dict, dataset: list, model: torchvisio
         column_number = min_number_of_elements_in_list_for_each_epsilon
     
     # Plot delle immagini perturbate classificate erroneamente.
-    for i in range(len(epsilons)):  
+    for i in range(len(epsilons)):
         if epsilons[i] == 0: # In corrispondenza di epsilon = 0 non ci possono essere errori nelle predizioni, perciò passo direttamente all'iterazione successiva.
             continue
         plt.figure()
