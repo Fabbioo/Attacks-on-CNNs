@@ -8,5 +8,5 @@ import torch
 import torch.nn as nn
 import torchvision
 from torchvision.io import read_image
-from torchvision.models import resnet50, ResNet50_Weights
+from torchvision.models import ResNet50_Weights, resnet50
 from torchray.attribution.grad_cam import grad_cam

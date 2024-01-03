@@ -1,4 +1,4 @@
-from .imports import *
+from .imports import torch, torchvision, ResNet50_Weights, resnet50
 
 def load_model_resnet50() -> torchvision.models:
     

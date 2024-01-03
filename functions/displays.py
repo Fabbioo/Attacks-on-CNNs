@@ -1,4 +1,4 @@
-from .imports import *
+from .imports import torchvision, plt, grad_cam
 from .model import inference
 from .utility import tensor2ndarray
 
