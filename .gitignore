@@ -3,4 +3,3 @@ res/fgsm_dict_wrong_preds.pth
 res/ifgsm_dict_wrong_preds.pth
 res/pgd_dict_wrong_preds.pth
 report.docx
-functions/__pycache__
