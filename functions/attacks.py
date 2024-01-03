@@ -1,6 +1,4 @@
-import torch
-import torchvision
-
+from .imports import *
 from .model import inference
 
 def fgsm_attack(model: torchvision.models, loss_fn, image: torch.Tensor, epsilon: float, device: str) -> torch.Tensor:

@@ -1,10 +1,6 @@
-import numpy as np
-import torch
-import torch.nn as nn
-import torchvision
-from torchvision.io import read_image
-
+from .imports import *
 from .attacks import *
+from .model import inference
 from .utility import *
 
 def compute_accuracy(attack_type: int, dataset: list, model: torchvision.models, device: str, img_resize: tuple, epsilons: list, alphas: list, iters: int = 0) -> tuple[list, dict]:

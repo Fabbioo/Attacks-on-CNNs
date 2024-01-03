@@ -1,6 +1,4 @@
-import torch
-import torchvision
-from torchvision.models import resnet50, ResNet50_Weights
+from .imports import *
 
 def load_model_resnet50() -> torchvision.models:
     

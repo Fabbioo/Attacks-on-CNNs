@@ -1,8 +1,4 @@
-import numpy as np 
-from matplotlib import pyplot as plt
-import torchvision
-from torchray.attribution.grad_cam import grad_cam
-
+from .imports import *
 from .model import inference
 from .utility import tensor2ndarray
 
