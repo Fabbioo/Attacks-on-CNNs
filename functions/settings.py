@@ -1,4 +1,4 @@
-from .imports import warnings, torch, plt
+from .imports import warnings, torch, plt, os
 
 warnings.filterwarnings('ignore')
 
@@ -27,3 +27,11 @@ parametri_grafici = {
     'legend.fontsize': 20,      # Dimensione dei caratteri della legenda.
 }
 plt.rcParams.update(parametri_grafici)
+
+working_directory_path: str = os.getcwd()
+images_path: str = working_directory_path + '/images'
+results_path: str = working_directory_path + '/res'
+
+epsilons: list = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+alphas: list = [elem/100 for elem in epsilons]
+iters: list = [5, 10, 25, 50, 75, 100]

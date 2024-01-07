@@ -68,17 +68,18 @@ def gradcam_display(model: torchvision.models, tripla: tuple, resize: tuple) -> 
             plt.imshow(tensor2ndarray(tripla[2]), alpha = 0.4)
             plt.title(titles[i] + '\n\n' + str(outputs_pert[0]) + ': ' + outputs_pert[1] + f' -> {outputs_pert[2] * 100:.3}%', color = color)
 
-def accuracy_display(dataset: list, model: torchvision.models, epsilons: list, accuracies: tuple, wrong_preds: tuple, dict_show_wrong_preds: dict) -> None:
+def accuracy_display(dataset: list, model: torchvision.models, epsilons: list, accuracies: tuple, iter: int, wrong_preds: tuple, dict_show_wrong_preds: dict) -> None:
     
     plt.figure()
-    plt.plot(epsilons, accuracies[0], label = 'FGSM', marker = 'o', color = 'red')
-    plt.plot(epsilons, accuracies[1], label = 'I-FGSM', marker = 'o', color = 'green')
-    plt.plot(epsilons, accuracies[2], label = 'PGD', marker = 'o', color = 'blue')
-    plt.legend()
+    plt.plot(epsilons, accuracies[0], label = 'FGSM', marker = 'o', color = 'r')
+    plt.plot(epsilons, accuracies[1], label = 'I-FGSM', marker = 'o', color = 'g')
+    plt.plot(epsilons, accuracies[2], label = 'PGD', marker = 'o', color = 'b')
+    plt.legend(loc = 'lower left')
     plt.suptitle(f'Performance del modello ResNet-50 al variare di epsilon su un dataset di {len(dataset)} immagini')
+    plt.title(f'Iters = {iter}')
     plt.xlabel('Epsilon')
     plt.ylabel('Accuracy')
-    plt.xticks(np.arange(0, 0.55, step = 0.05))
+    plt.xticks(np.arange(0, 1.1, step = 0.1))
     plt.yticks(np.arange(0, 1.1, step = 0.1))
     plt.grid()
     

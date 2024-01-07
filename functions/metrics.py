@@ -20,11 +20,11 @@ def compute_accuracy(attack_type: int, dataset: list, model: torchvision.models,
             original_image: torch.Tensor = read_image(image)
             original_image = preprocess(original_image, img_resize).to(device)
             
-            if attack_type == 1:
+            if attack_type == 'FGSM':
                 perturbed_image: torch.Tensor = fgsm_attack(model, loss_fn, original_image, epsilon, device)
-            elif attack_type == 2:
+            elif attack_type == 'I-FGSM':
                 perturbed_image: torch.Tensor = ifgsm_attack(model, loss_fn, original_image, epsilon, alpha, iters, device)
-            elif attack_type == 3:
+            elif attack_type == 'PGD':
                 perturbed_image: torch.Tensor = pgd_attack(model, loss_fn, original_image, epsilon, alpha, iters, device)
             
             original_image = postprocess(original_image)
